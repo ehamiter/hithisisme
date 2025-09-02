@@ -1,0 +1,67 @@
+# index.hi source file along with explanation of what the hell this is
+
+# lines that start with '#' are comments and are ignored by parsing
+
+# these variables represent each respective object saved from the http call saved in their json file
+# notice the whitespace can be used to align things visually; this does not affect parsing
+
+apps       = apps.json      << https://itunes.apple.com/lookup?id=1482332471&entity=software&country=US
+repos      = repos.json     << https://api.github.com/users/ehamiter/repos?sort=pushed&direction=desc
+!languages = languages.json << https://api.github.com/repos/ehamiter/{repo.name}/languages
+
+# `things.json` is updated manually, so it's just assigned as-is
+things = things.json
+
+# `posts` is a folder full of markdown files named "`YYYY-MM-DD`.md", e.g. "2025-08-31.md".
+# each file is written in markdown, so i'm assigning `posts` to all of the markdown files in that directory
+posts = ./posts/**
+
+# this is the start of the visual layout. we set a section id in between a brace and colon, e.g.
+# {intro: This would be the equivalent of <section id="intro">This would be the equivalent...</section>}
+
+{hi: Hi, welcome to my home page. This is a digital garden of sorts, and this is the latest experiment.}
+
+{posts: Random writing.}
+
+# here we'll iterate through each of these posts from before. they will be cards that have a link to each
+# post separately, and show the title and the beginning section of text. we'll cut off the remaining "preview" content with an ellipses
+
+[for post in posts:]
+  post.title
+  post.url
+  post.preview
+  post.date
+
+{apps: I've published a few things on the app store, ranging from games to health apps.}
+
+# we'll iterate through the apps and show the properties listed below
+[for app in apps.results: currentVersionReleaseDate]
+  app.trackName
+  app.trackViewUrl
+  app.version
+  app.description
+  app.genres
+  app.currentVersionReleaseDate
+
+{repos: You can look at some projects I've made in the past, as well as ones that I'm currently working on.}
+
+# ...and do the same for repos
+[for repo in repos: stargazers_count, updated_at]
+  repo.name
+  repo.html_url
+  repo.description
+  repo.updated_at
+  repo.stargazers_count
+  # here is where we use that `languages` variable from before. now we have the `repo` in context
+  [for name, count in languages: count]
+    name
+
+{things: I like to keep a curated list of things I would recommend to others-- this is that list.}
+
+# things.json is written manually and updated infrequently, but this will be framed visually similar to posts
+[for thing in things: date_published, category, title]
+  thing.category
+  thing.title
+  thing.url
+  thing.description
+  thing.date_published
