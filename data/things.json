@@ -1,0 +1,16 @@
+[
+  {
+    "category": "software",
+    "title": "Sublime Text",
+    "url": "https://sublimetext.com",
+    "description": "My go-to editor for manipulating text and mapping out ideas in code",
+    "date_published": "2025-09-01"
+  },
+  {
+    "category": "software",
+    "title": "Visual Studio Code",
+    "url": "https://code.visualstudio.com/",
+    "description": "My daily driver for delegating programming tasks to AI minions",
+    "date_published": "2025-09-01"
+  }
+]
