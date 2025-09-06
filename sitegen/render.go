@@ -117,6 +117,12 @@ func Render(opts RenderOptions) error {
 	if err := os.WriteFile(opts.Out, []byte(outHTML), 0o644); err != nil {
 		return err
 	}
+	
+	// Generate dynamic CSS with timestamp-based color
+	if err := generateCSS(filepath.Dir(opts.Out)); err != nil {
+		return fmt.Errorf("failed to generate CSS: %w", err)
+	}
+	
 	fetcher.SaveETags()
 	// save lazy caches
 	for _, lb := range ctx.lazy {

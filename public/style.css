@@ -1,0 +1,422 @@
+/* Dynamic Color Theme - Generated at build time */
+:root {
+  /* Base color - generated from #006699 */
+  --base-color: #006699;
+  --base-hue: 200deg;
+  --base-saturation: 100%;
+  --base-lightness: 30%;
+  
+  /* Light mode color variations derived from base color */
+  --color-primary: hsl(var(--base-hue), var(--base-saturation), var(--base-lightness));
+  --color-primary-light: hsl(var(--base-hue), calc(var(--base-saturation) - 10%), calc(var(--base-lightness) + 15%));
+  --color-primary-lighter: hsl(var(--base-hue), calc(var(--base-saturation) - 20%), calc(var(--base-lightness) + 25%));
+  --color-interactive: hsl(var(--base-hue), calc(var(--base-saturation) - 15%), calc(var(--base-lightness) + 20%));
+  --color-interactive-hover: hsl(var(--base-hue), calc(var(--base-saturation) - 10%), calc(var(--base-lightness) + 10%));
+  --color-background-tint: hsl(var(--base-hue), calc(var(--base-saturation) - 40%), 92%);
+  
+  /* Gradient colors */
+  --gradient-start: var(--color-primary);
+  --gradient-mid: var(--color-primary-light);
+  --gradient-end: var(--color-primary-lighter);
+  
+  /* Update Bulma variables */
+  --bulma-link: var(--color-interactive);
+  --bulma-primary: var(--color-interactive);
+  --bulma-info: var(--color-interactive);
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Main scheme colors - dark but not too dark for readability */
+    --bulma-scheme-main: #1a1a1a;
+    --bulma-scheme-main-bis: #1f1f1f;
+    --bulma-scheme-main-ter: #242424;
+    --bulma-background: #1a1a1a;
+    
+    /* Text colors with good contrast */
+    --bulma-text: #e8e8e8;
+    --bulma-text-weak: #b8b8b8;
+    --bulma-text-strong: #ffffff;
+    --bulma-text-title: #ffffff;
+    
+    /* Border colors */
+    --bulma-border: #404040;
+    --bulma-border-weak: #333333;
+    
+    /* Dark mode color variations */
+    --color-primary-dark: hsl(var(--base-hue), calc(var(--base-saturation) + 10%), calc(var(--base-lightness) - 5%));
+    --color-interactive-dark: hsl(var(--base-hue), calc(var(--base-saturation) - 10%), calc(var(--base-lightness) + 35%));
+    --color-interactive-dark-hover: hsl(var(--base-hue), calc(var(--base-saturation) - 5%), calc(var(--base-lightness) + 25%));
+    --color-background-dark-tint: hsl(var(--base-hue), calc(var(--base-saturation) - 10%), 15%);
+    
+    /* Dark mode gradient */
+    --gradient-start: hsl(var(--base-hue), calc(var(--base-saturation) + 15%), calc(var(--base-lightness) - 8%));
+    --gradient-mid: var(--color-primary);
+    --gradient-end: var(--color-primary-light);
+    
+    /* Update variables for dark mode */
+    --bulma-link: var(--color-interactive-dark);
+    --bulma-primary: var(--color-interactive-dark);
+    --bulma-info: var(--color-interactive-dark);
+  }
+}
+
+/* Prevent horizontal overflow on the entire page */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Ensure all containers respect viewport width */
+* {
+  box-sizing: border-box;
+}
+
+.hero.is-dark {
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-mid) 50%, var(--gradient-end) 100%);
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.hero .container {
+  text-align: center;
+}
+
+/* Hero height */
+.hero.is-medium .hero-body {
+  padding: 3.75rem 1.5rem;
+}
+
+.section {
+  padding-top: 2rem;
+}
+
+.hero + .section {
+  padding-top: 3rem;
+}
+
+/* Mobile responsiveness improvements */
+@media screen and (max-width: 768px) {
+  .hero.is-medium .hero-body {
+    padding: 3.25rem 1.5rem;
+  }
+  
+  .title.is-1 {
+    font-size: 2rem !important;
+  }
+  
+  .section {
+    padding: 1.5rem 1.5rem;
+  }
+  
+  .modal-card {
+    margin: 0 1rem;
+    max-height: calc(100vh - 2rem);
+  }
+  
+  /* Ensure containers don't exceed viewport width */
+  .container {
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+  
+  /* Ensure grid content is centered */
+  .grid {
+    justify-content: center !important;
+  }
+  
+  /* Ensure level components stay within bounds */
+  .level:not(.category-filter-level) {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  
+  /* Ensure buttons container doesn't overflow */
+  .buttons:not(.category-filter-buttons) {
+    flex-wrap: wrap;
+  }
+}
+
+/* Accessibility improvements for contrast ratio */
+.has-text-grey-light {
+  color: #6b7280 !important; /* Improved contrast ratio while staying subtle */
+}
+
+/* Ensure card footer text meets accessibility standards */
+.card-footer-item.has-text-grey-light {
+  color: #6b7280 !important;
+}
+
+/* Tab content sections - hidden by default */
+.tab-content {
+  display: none;
+}
+
+/* Show active tab content */
+.tab-content.is-active {
+  display: block;
+}
+
+/* Tab styling improvements */
+.tabs.is-centered.is-medium.is-boxed {
+  margin-bottom: 2rem;
+}
+
+/* Custom theme colors for buttons and tags using CSS variables */
+.button.is-info {
+  background-color: var(--color-interactive);
+  border-color: var(--color-interactive);
+  color: #fff;
+}
+
+.button.is-info:hover {
+  background-color: var(--color-interactive-hover);
+  border-color: var(--color-interactive-hover);
+}
+
+.button.is-info.is-selected {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.tag.is-info {
+  background-color: var(--color-interactive);
+  color: #fff;
+}
+
+.tag.is-info.is-light {
+  background-color: var(--color-background-tint);
+  color: var(--color-primary);
+}
+
+/* Category filter horizontal scroll solution */
+.category-filter-wrapper {
+  position: relative;
+  margin-bottom: 2rem;
+  width: 100%;
+  overflow: hidden;
+}
+
+.category-filter-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+  padding: 0 1rem;
+  width: 100%;
+}
+
+.category-filter-scroll::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.category-filter-level {
+  min-width: max-content;
+  margin-bottom: 0;
+}
+
+.category-filter-buttons {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* Fade gradients for scroll indication */
+@media screen and (max-width: 768px) {
+  .category-filter-wrapper::before,
+  .category-filter-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1rem;
+    z-index: 1;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  
+  .category-filter-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.8), transparent);
+  }
+  
+  .category-filter-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.8), transparent);
+  }
+  
+  /* Hide gradients when at scroll boundaries */
+  .category-filter-scroll.at-start::before {
+    opacity: 0;
+  }
+  
+  .category-filter-scroll.at-end::after {
+    opacity: 0;
+  }
+  
+  .category-filter-scroll {
+    padding: 0 1.5rem;
+    margin: 0 -1.5rem;
+  }
+}
+
+/* Override Bulma's default link colors with theme colors */
+a, .has-text-link {
+  color: var(--bulma-link) !important;
+}
+
+a:hover, .has-text-link:hover {
+  color: var(--color-primary) !important;
+}
+
+/* Custom Dark Mode - Better contrast and readability */
+@media (prefers-color-scheme: dark) {
+  /* Hero section dark mode */
+  .hero.is-dark {
+    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-mid) 50%, var(--gradient-end) 100%) !important;
+  }
+  
+  /* Card backgrounds */
+  .card {
+    background-color: #242424 !important;
+    border: 1px solid #404040 !important;
+  }
+  
+  /* Button adjustments for dark mode */
+  .button.is-info {
+    background-color: var(--color-interactive-dark) !important;
+    border-color: var(--color-interactive-dark) !important;
+    color: #1a1a1a !important;
+  }
+  
+  .button.is-info:hover {
+    background-color: var(--color-interactive-dark-hover) !important;
+    border-color: var(--color-interactive-dark-hover) !important;
+  }
+  
+  .button.is-info.is-selected {
+    background-color: var(--color-primary-dark) !important;
+    border-color: var(--color-primary-dark) !important;
+    color: #ffffff !important;
+  }
+  
+  /* Tag adjustments for dark mode */
+  .tag.is-info {
+    background-color: var(--color-interactive-dark) !important;
+    color: #1a1a1a !important;
+  }
+  
+  .tag.is-info.is-light {
+    background-color: var(--color-background-dark-tint) !important;
+    color: var(--color-interactive-dark) !important;
+  }
+  
+  /* Link colors for dark mode */
+  a, .has-text-link {
+    color: var(--color-interactive-dark) !important;
+  }
+  
+  a:hover, .has-text-link:hover {
+    color: var(--color-interactive-dark-hover) !important;
+  }
+  
+  /* Footer adjustments */
+  .footer {
+    background-color: #1a1a1a !important;
+    border-top: 1px solid #404040 !important;
+  }
+  
+  /* Modal adjustments */
+  .modal-card {
+    background-color: #242424 !important;
+  }
+  
+  .modal-card-head {
+    background-color: #1a1a1a !important;
+    border-bottom: 1px solid #404040 !important;
+  }
+  
+  .modal-card-foot {
+    background-color: #1a1a1a !important;
+    border-top: 1px solid #404040 !important;
+  }
+  
+  /* Improve text contrast on grey backgrounds */
+  .has-text-grey-light {
+    color: #b8b8b8 !important;
+  }
+  
+  .card-footer-item.has-text-grey-light {
+    color: #b8b8b8 !important;
+  }
+  
+  /* Fix category filter gradients for dark mode */
+  .category-filter-wrapper::before {
+    background: linear-gradient(to right, rgba(26, 26, 26, 0.8), transparent) !important;
+  }
+  
+  .category-filter-wrapper::after {
+    background: linear-gradient(to left, rgba(26, 26, 26, 0.8), transparent) !important;
+  }
+  
+  /* Tab styling for dark mode */
+  .tabs li.is-active a {
+    border-bottom-color: var(--color-interactive-dark) !important;
+    color: var(--color-interactive-dark) !important;
+  }
+  
+  .tabs a:hover {
+    border-bottom-color: var(--color-interactive-dark-hover) !important;
+    color: var(--color-interactive-dark-hover) !important;
+  }
+  
+  /* Notification and message components */
+  .notification {
+    background-color: #242424 !important;
+    border: 1px solid #404040 !important;
+  }
+  
+  /* Input and form elements */
+  .input, .textarea, .select select {
+    background-color: #242424 !important;
+    border-color: #404040 !important;
+    color: #e8e8e8 !important;
+  }
+  
+  .input:focus, .textarea:focus, .select select:focus {
+    border-color: var(--color-interactive-dark) !important;
+    box-shadow: 0 0 0 0.125em rgba(107, 154, 122, 0.25) !important;
+  }
+  
+  /* Fix pills/tags in things and repos to match apps style */
+  .tag:not(.is-info):not(.is-primary):not(.is-success):not(.is-warning):not(.is-danger):not(.is-link) {
+    background-color: var(--color-background-dark-tint) !important;
+    color: var(--color-interactive-dark) !important;
+  }
+  
+  /* Specifically target category tags in things and language/topic tags in repos */
+  .card-footer .tag,
+  .content .tag {
+    background-color: var(--color-background-dark-tint) !important;
+    color: var(--color-interactive-dark) !important;
+  }
+  
+  /* Fix star icons in repos section - use theme color instead of black */
+  .card .content .has-text-black {
+    color: var(--color-primary-dark) !important;
+  }
+  
+  /* Target star SVG icons specifically in repos */
+  .card .content svg {
+    fill: var(--color-primary-dark) !important;
+  }
+  
+  /* Target the level item containing the star SVG */
+  .card .level-item svg {
+    fill: var(--color-primary-dark) !important;
+  }
+}
