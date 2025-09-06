@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Hi, this is me. An automated curation of my thoughts, projects, and more.">
+  <meta name="author" content="Eric Hamiter">
+  <meta name="keywords" content="Eric Hamiter, developer, apps, running, scuba diving, programming, projects">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hithisisme.com/">
+  <meta property="og:title" content="hi this is me">
+  <meta property="og:description" content="Hi, this is me. An automated curation of my thoughts, projects, and more.">
+  <meta property="og:site_name" content="hi this is me">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:url" content="https://hithisisme.com/">
+  <meta property="twitter:title" content="hi this is me">
+  <meta property="twitter:description" content="Hi, this is me. An automated curation of my thoughts, projects, and more.">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://hithisisme.com/">
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏃‍♂️</text></svg>">
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
+  >
+  <style>
+    /* Prevent horizontal overflow on the entire page */
+    html, body {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+    
+    /* Ensure all containers respect viewport width */
+    * {
+      box-sizing: border-box;
+    }
+    
+    .hero.is-dark {
+      background: linear-gradient(135deg, #2d5016 0%, #3e6b1b 50%, #5a8729 100%);
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .hero .container {
+      text-align: center;
+    }
+    
+    /* Hero height */
+    .hero.is-medium .hero-body {
+      padding: 3.75rem 1.5rem;
+    }
+    .section {
+      padding-top: 2rem;
+    }
+    .hero + .section {
+      padding-top: 3rem;
+    }
+    /* Mobile responsiveness improvements */
+    @media screen and (max-width: 768px) {
+      .hero.is-medium .hero-body {
+        padding: 3.25rem 1.5rem;
+      }
+      .title.is-1 {
+        font-size: 2rem !important;
+      }
+      .section {
+        padding: 1.5rem 1.5rem;
+      }
+      .modal-card {
+        margin: 0 1rem;
+        max-height: calc(100vh - 2rem);
+      }
+      
+      /* Ensure containers don't exceed viewport width */
+      .container {
+        max-width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+      }
+      
+      /* Ensure grid content is centered */
+      .grid {
+        justify-content: center !important;
+      }
+      
+      /* Ensure level components stay within bounds */
+      .level:not(.category-filter-level) {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+      
+      /* Ensure buttons container doesn't overflow */
+      .buttons:not(.category-filter-buttons) {
+        flex-wrap: wrap;
+      }
+    }
+    
+    /* Accessibility improvements for contrast ratio */
+    .has-text-grey-light {
+      color: #6b7280 !important; /* Improved contrast ratio while staying subtle */
+    }
+    
+    /* Ensure card footer text meets accessibility standards */
+    .card-footer-item.has-text-grey-light {
+      color: #6b7280 !important;
+    }
+    
+    /* Tab content sections - hidden by default */
+    .tab-content {
+      display: none;
+    }
+    
+    /* Show active tab content */
+    .tab-content.is-active {
+      display: block;
+    }
+    
+    /* Tab styling improvements */
+    .tabs.is-centered.is-medium.is-boxed {
+      margin-bottom: 2rem;
+    }
+    
+    /* Custom earthy green theme for buttons and tags */
+    .button.is-info {
+      background-color: #4a7c59;
+      border-color: #4a7c59;
+      color: #fff;
+    }
+    
+    .button.is-info:hover {
+      background-color: #3e6b4a;
+      border-color: #3e6b4a;
+    }
+    
+    .button.is-info.is-selected {
+      background-color: #2d5016;
+      border-color: #2d5016;
+    }
+    
+    .tag.is-info {
+      background-color: #4a7c59;
+      color: #fff;
+    }
+    
+    .tag.is-info.is-light {
+      background-color: #e8f5e8;
+      color: #2d5016;
+    }
+    
+    /* Category filter horizontal scroll solution */
+    .category-filter-wrapper {
+      position: relative;
+      margin-bottom: 2rem;
+      width: 100%;
+      overflow: hidden;
+    }
+    
+    .category-filter-scroll {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE/Edge */
+      -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+      padding: 0 1rem;
+      width: 100%;
+    }
+    
+    .category-filter-scroll::-webkit-scrollbar {
+      display: none; /* Chrome/Safari */
+    }
+    
+    .category-filter-level {
+      min-width: max-content;
+      margin-bottom: 0;
+    }
+    
+    .category-filter-buttons {
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    
+    /* Fade gradients for scroll indication */
+    @media screen and (max-width: 768px) {
+      .category-filter-wrapper::before,
+      .category-filter-wrapper::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 1rem;
+        z-index: 1;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+      
+      .category-filter-wrapper::before {
+        left: 0;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0.8), transparent);
+      }
+      
+      .category-filter-wrapper::after {
+        right: 0;
+        background: linear-gradient(to left, rgba(255, 255, 255, 0.8), transparent);
+      }
+      
+      /* Hide gradients when at scroll boundaries */
+      .category-filter-scroll.at-start::before {
+        opacity: 0;
+      }
+      
+      .category-filter-scroll.at-end::after {
+        opacity: 0;
+      }
+      
+      .category-filter-scroll {
+        padding: 0 1.5rem;
+        margin: 0 -1.5rem;
+      }
+    }
+    
+    /* Override Bulma's default link colors with earthy green theme */
+    :root {
+      --bulma-link: #4a7c59;
+      --bulma-link-h: 138deg;
+      --bulma-link-s: 25%;
+      --bulma-link-l: 40%;
+    }
+    
+    /* Ensure links use our custom green color */
+    a, .has-text-link {
+      color: var(--bulma-link) !important;
+    }
+    
+    a:hover, .has-text-link:hover {
+      color: #2d5016 !important;
+    }
+    
+    /* Custom Dark Mode - Better contrast and readability */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        /* Main scheme colors - dark but not too dark for readability */
+        --bulma-scheme-main: #1a1a1a;
+        --bulma-scheme-main-bis: #1f1f1f;
+        --bulma-scheme-main-ter: #242424;
+        --bulma-background: #1a1a1a;
+        
+        /* Text colors with good contrast */
+        --bulma-text: #e8e8e8;
+        --bulma-text-weak: #b8b8b8;
+        --bulma-text-strong: #ffffff;
+        --bulma-text-title: #ffffff;
+        
+        /* Border colors */
+        --bulma-border: #404040;
+        --bulma-border-weak: #333333;
+        
+        /* Keep our earthy green theme but adjust for dark mode */
+        --bulma-link: #6b9a7a;
+        --bulma-primary: #6b9a7a;
+        --bulma-info: #6b9a7a;
+      }
+      
+      /* Hero section dark mode */
+      .hero.is-dark {
+        background: linear-gradient(135deg, #1a3d0f 0%, #2d5016 50%, #3e6b1b 100%) !important;
+      }
+      
+      /* Card backgrounds */
+      .card {
+        background-color: #242424 !important;
+        border: 1px solid #404040 !important;
+      }
+      
+      /* Button adjustments for dark mode */
+      .button.is-info {
+        background-color: #6b9a7a !important;
+        border-color: #6b9a7a !important;
+        color: #1a1a1a !important;
+      }
+      
+      .button.is-info:hover {
+        background-color: #5a8866 !important;
+        border-color: #5a8866 !important;
+      }
+      
+      .button.is-info.is-selected {
+        background-color: #4a7653 !important;
+        border-color: #4a7653 !important;
+        color: #ffffff !important;
+      }
+      
+      /* Tag adjustments for dark mode */
+      .tag.is-info {
+        background-color: #6b9a7a !important;
+        color: #1a1a1a !important;
+      }
+      
+      .tag.is-info.is-light {
+        background-color: #2a3d2a !important;
+        color: #6b9a7a !important;
+      }
+      
+      /* Link colors for dark mode */
+      a, .has-text-link {
+        color: #6b9a7a !important;
+      }
+      
+      a:hover, .has-text-link:hover {
+        color: #5a8866 !important;
+      }
+      
+      /* Footer adjustments */
+      .footer {
+        background-color: #1a1a1a !important;
+        border-top: 1px solid #404040 !important;
+      }
+      
+      /* Modal adjustments */
+      .modal-card {
+        background-color: #242424 !important;
+      }
+      
+      .modal-card-head {
+        background-color: #1a1a1a !important;
+        border-bottom: 1px solid #404040 !important;
+      }
+      
+      .modal-card-foot {
+        background-color: #1a1a1a !important;
+        border-top: 1px solid #404040 !important;
+      }
+      
+      /* Improve text contrast on grey backgrounds */
+      .has-text-grey-light {
+        color: #b8b8b8 !important;
+      }
+      
+      .card-footer-item.has-text-grey-light {
+        color: #b8b8b8 !important;
+      }
+      
+      /* Fix category filter gradients for dark mode */
+      .category-filter-wrapper::before {
+        background: linear-gradient(to right, rgba(26, 26, 26, 0.8), transparent) !important;
+      }
+      
+      .category-filter-wrapper::after {
+        background: linear-gradient(to left, rgba(26, 26, 26, 0.8), transparent) !important;
+      }
+      
+      /* Tab styling for dark mode */
+      .tabs li.is-active a {
+        border-bottom-color: #6b9a7a !important;
+        color: #6b9a7a !important;
+      }
+      
+      .tabs a:hover {
+        border-bottom-color: #5a8866 !important;
+        color: #5a8866 !important;
+      }
+      
+      /* Notification and message components */
+      .notification {
+        background-color: #242424 !important;
+        border: 1px solid #404040 !important;
+      }
+      
+      /* Input and form elements */
+      .input, .textarea, .select select {
+        background-color: #242424 !important;
+        border-color: #404040 !important;
+        color: #e8e8e8 !important;
+      }
+      
+      .input:focus, .textarea:focus, .select select:focus {
+        border-color: #6b9a7a !important;
+        box-shadow: 0 0 0 0.125em rgba(107, 154, 122, 0.25) !important;
+      }
+      
+      /* Fix pills/tags in things and repos to match apps style */
+      .tag:not(.is-info):not(.is-primary):not(.is-success):not(.is-warning):not(.is-danger):not(.is-link) {
+        background-color: #2A3D2A !important;
+        color: #6b9a7a !important;
+      }
+      
+      /* Specifically target category tags in things and language/topic tags in repos */
+      .card-footer .tag,
+      .content .tag {
+        background-color: #2A3D2A !important;
+        color: #6b9a7a !important;
+      }
+      
+      /* Fix star icons in repos section - make them dark green instead of black */
+      .card .content .has-text-black {
+        color: #4a7653 !important;
+      }
+      
+      /* Target star SVG icons specifically in repos */
+      .card .content svg {
+        fill: #4a7653 !important;
+      }
+      
+      /* Target the level item containing the star SVG */
+      .card .level-item svg {
+        fill: #4a7653 !important;
+      }
+    }
+  </style>
+  <title>hi this is me</title>
+</head>
+<body>
+<section class="hero is-dark is-medium">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title is-1 has-text-white">Hello, and welcome. This is a digital garden of sorts, and this is the latest experiment.</h1>
+    </div>
+  </div>
+</section>
+<div class="container">
+  <div class="tabs is-centered is-large is-boxed has-text-weight-semibold is-family-code is-lowercase">
+    <ul>
+      <li class="is-active" data-tab="things">
+        <a>
+          <span>Things</span>
+        </a>
+      </li>
+      <li data-tab="apps">
+        <a>
+          <span>Apps</span>
+        </a>
+      </li>
+      <li data-tab="repos">
+        <a>
+          <span>Repos</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div><div id="things-content" class="tab-content">
+<section class="section" id="things">
+  <div class="container">
+    <h2 class="subtitle has-text-weight-semibold">I like to keep a curated list of things I would recommend to others— this is that list.</h2>
+  </div>
+</section><div class="category-filter-wrapper"><div class="category-filter-scroll"><div class="level is-mobile category-filter-level"><div class="level-item"><div class="buttons has-addons category-filter-buttons"><button class="button is-info is-selected" onclick="filterThings('all')">All</button><button class="button" onclick="filterThings('lifestyle')">Lifestyle</button><button class="button" onclick="filterThings('running')">Running</button><button class="button" onclick="filterThings('software')">Software</button></div></div></div></div></div><section class="section"><div class="container"><div class="grid is-col-min-16" id="things-grid"><div class="cell thing-item" data-category="lifestyle"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://www.beurer.com/global/p/60617/" target="_blank" rel="noopener noreferrer">Beurer BR 60 Insect bite healer</a>
+      </h3>
+      <p>A device that uses heat to alleviate itching and swelling from insect bites. It hurts like hell, but it works.</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">lifestyle</span>
+      </div>
+    </div>
+  </div>
+</div></div><div class="cell thing-item" data-category="lifestyle"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://ridge.com/products/matte-olive-silicone-rings-8mm" target="_blank" rel="noopener noreferrer">Ridge 8mm Silicone Ring Set</a>
+      </h3>
+      <p>Metal rings and their proclivity to deglove fingers always scared the hell out of me. These are soft but durable and won't rip your flesh off if you get them caught on something.</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">lifestyle</span>
+      </div>
+    </div>
+  </div>
+</div></div><div class="cell thing-item" data-category="lifestyle"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://www.wahlpro.com/shop/vapor-3026480" target="_blank" rel="noopener noreferrer">Wahl Vapor Clippers</a>
+      </h3>
+      <p>These clippers are fairly quiet and pretty strong. Does a good job on shaving my head as well as trimming my beard.</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">lifestyle</span>
+      </div>
+    </div>
+  </div>
+</div></div><div class="cell thing-item" data-category="running"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://www.asics.com/us/en-us/novablast--5/p/ANA_1011B974-002.html" target="_blank" rel="noopener noreferrer">ASICS NOVOBLAST 5 Running Shoes</a>
+      </h3>
+      <p>Running shoes that feel great and are super responsive.</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">running</span>
+      </div>
+    </div>
+  </div>
+</div></div><div class="cell thing-item" data-category="running"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://coros.com/pacepro" target="_blank" rel="noopener noreferrer">COROS PACE Pro GPS Sport Watch</a>
+      </h3>
+      <p>Lightweight GPS watch with great battery life and a vibrant AMOLED display.</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">running</span>
+      </div>
+    </div>
+  </div>
+</div></div><div class="cell thing-item" data-category="running"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://fitletic.com/collections/best-sellers/products/hydra-16-hydration-belt" target="_blank" rel="noopener noreferrer">Fitletic Hydra 16 Running Belt</a>
+      </h3>
+      <p>The best running belt I've found. Doesn't bounce, holds two 8 oz bottles of water, a large phone, ID cards, and I also carry pepper spray and swimming goggles with it.</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">running</span>
+      </div>
+    </div>
+  </div>
+</div></div><div class="cell thing-item" data-category="running"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://janji.com/products/ms-5-afo-middle-short" target="_blank" rel="noopener noreferrer">Janji M's 5” AFO Middle Short</a>
+      </h3>
+      <p>My favorite running shorts. Lightweight and doubles as swim trunks for a post-run dip.</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">running</span>
+      </div>
+    </div>
+  </div>
+</div></div><div class="cell thing-item" data-category="running"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://www.rei.com/product/245540/rei-co-op-on-the-trail-cap" target="_blank" rel="noopener noreferrer">REI Co-op On The Trail Cap</a>
+      </h3>
+      <p>My running hat. Comfy, lightweight, keeps the UV rays off of my noggin, and has taken a ton of abuse and still looks new after a gentle handwash.</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">running</span>
+      </div>
+    </div>
+  </div>
+</div></div><div class="cell thing-item" data-category="running"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://shokz.com/products/openrunpro2?variant=44598506356936" target="_blank" rel="noopener noreferrer">Shokz OPENRUN PRO 2 Headphones</a>
+      </h3>
+      <p>Bone conduction sports headphones— very comfortable, long battery life, and decent audio.</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">running</span>
+      </div>
+    </div>
+  </div>
+</div></div><div class="cell thing-item" data-category="software"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://www.ecosia.org/browser" target="_blank" rel="noopener noreferrer">Ecosia Browser</a>
+      </h3>
+      <p>“The greenest browser on Earth”, they say. Chrome, under the hood, but with an eco-friendly mission.</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">software</span>
+      </div>
+    </div>
+  </div>
+</div></div><div class="cell thing-item" data-category="software"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://sublimetext.com" target="_blank" rel="noopener noreferrer">Sublime Text</a>
+      </h3>
+      <p>My go-to editor for manipulating text and mapping out ideas in code.</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">software</span>
+      </div>
+    </div>
+  </div>
+</div></div><div class="cell thing-item" data-category="software"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://sw.kovidgoyal.net/kitty/" target="_blank" rel="noopener noreferrer">kitty terminal emulator</a>
+      </h3>
+      <p>My terminal program of choice— extremely configurable and dependable.</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">software</span>
+      </div>
+    </div>
+  </div>
+</div></div></div></div></section></div><div id="apps-content" class="tab-content">
+<section class="section" id="apps">
+  <div class="container">
+    <h2 class="subtitle has-text-weight-semibold">I've published a few things on the app store, ranging from games to health apps.</h2>
+  </div>
+</section><section class="section"><div class="container"><div class="grid is-col-min-16"><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <div class="level is-mobile" style="margin-bottom: 1rem;">
+        <div class="level-left">
+          <div class="level-item">
+            <figure class="image is-48x48" style="margin-right: 0.75rem;">
+              <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/3c/79/98/3c7998cb-e307-c811-1cca-e8b17b53c6c3/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/100x100bb.jpg" alt="CadenceSync icon" style="border-radius: 12px;">
+            </figure>
+          </div>
+          <div class="level-item">
+            <h3 class="title is-5" style="margin-bottom: 0;">
+              <a href="https://apps.apple.com/us/app/cadencesync/id6747299816?uo=4" target="_blank" rel="noopener noreferrer">CadenceSync</a>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <p>Match Your Stride
+CadenceSync dynamically adjusts the tempo of your favorite music to match your desired stride rate (SPM – strides per minute). Whether you prefer 160 or 180 SPM, the music will...</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">Music</span>
+        <span class="tag is-info is-light">Health &amp; Fitness</span>
+      </div>
+    </div>
+  </div>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <div class="level is-mobile" style="margin-bottom: 1rem;">
+        <div class="level-left">
+          <div class="level-item">
+            <figure class="image is-48x48" style="margin-right: 0.75rem;">
+              <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/30/62/37/30623713-79c1-51e3-8d09-7438640589a2/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/100x100bb.jpg" alt="Weatherhue icon" style="border-radius: 12px;">
+            </figure>
+          </div>
+          <div class="level-item">
+            <h3 class="title is-5" style="margin-bottom: 0;">
+              <a href="https://apps.apple.com/us/app/weatherhue/id6743057918?uo=4" target="_blank" rel="noopener noreferrer">Weatherhue</a>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <p>Weatherhue transforms how you experience weather with a beautiful, minimalist interface that brings forecasts to life through stunning visual effects.
+
+KEY FEATURES
+
+• Split-Screen Design: View...</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">Weather</span>
+        <span class="tag is-info is-light">Utilities</span>
+      </div>
+    </div>
+  </div>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <div class="level is-mobile" style="margin-bottom: 1rem;">
+        <div class="level-left">
+          <div class="level-item">
+            <figure class="image is-48x48" style="margin-right: 0.75rem;">
+              <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/d7/b1/41/d7b141e6-4590-8167-17c5-8aa81325552d/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/100x100bb.jpg" alt="Chill Destruction icon" style="border-radius: 12px;">
+            </figure>
+          </div>
+          <div class="level-item">
+            <h3 class="title is-5" style="margin-bottom: 0;">
+              <a href="https://apps.apple.com/us/app/chill-destruction/id6748417365?uo=4" target="_blank" rel="noopener noreferrer">Chill Destruction</a>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <p>Relax to some ambient and relaxing beats while you fling your hapless space vehicle into gargantuan sized objects in space to watch them explode into ever-smaller pieces, until there is no more. Once...</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">Games</span>
+        <span class="tag is-info is-light">Casual</span>
+        <span class="tag is-info is-light">Action</span>
+        <span class="tag is-info is-light">Entertainment</span>
+      </div>
+    </div>
+  </div>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <div class="level is-mobile" style="margin-bottom: 1rem;">
+        <div class="level-left">
+          <div class="level-item">
+            <figure class="image is-48x48" style="margin-right: 0.75rem;">
+              <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/b5/1e/b6/b51eb69e-400f-b3d5-b209-dcdb1626c992/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/100x100bb.jpg" alt="Can I Kayak icon" style="border-radius: 12px;">
+            </figure>
+          </div>
+          <div class="level-item">
+            <h3 class="title is-5" style="margin-bottom: 0;">
+              <a href="https://apps.apple.com/us/app/can-i-kayak/id6747190079?uo=4" target="_blank" rel="noopener noreferrer">Can I Kayak</a>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <p>Look up river conditions quickly and see gage height, rate of flow, and water temperature. Use the widget for easy reference-- an overall scale of good (green), caution (amber), or dangerous...</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">Sports</span>
+        <span class="tag is-info is-light">Weather</span>
+      </div>
+    </div>
+  </div>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <div class="level is-mobile" style="margin-bottom: 1rem;">
+        <div class="level-left">
+          <div class="level-item">
+            <figure class="image is-48x48" style="margin-right: 0.75rem;">
+              <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/86/4b/6b/864b6b13-8155-5178-da38-c05216b08443/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/100x100bb.jpg" alt="Spectroslide icon" style="border-radius: 12px;">
+            </figure>
+          </div>
+          <div class="level-item">
+            <h3 class="title is-5" style="margin-bottom: 0;">
+              <a href="https://apps.apple.com/us/app/spectroslide/id6677062885?uo=4" target="_blank" rel="noopener noreferrer">Spectroslide</a>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <p>Spectroslide is a static noise generator that allows the user to discover their own custom sound. Slide up and down to navigate to the different frequencies (&quot;red&quot;, &quot;pink&quot;, and &quot;brown&quot;) and...</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">Utilities</span>
+        <span class="tag is-info is-light">Travel</span>
+      </div>
+    </div>
+  </div>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <div class="level is-mobile" style="margin-bottom: 1rem;">
+        <div class="level-left">
+          <div class="level-item">
+            <figure class="image is-48x48" style="margin-right: 0.75rem;">
+              <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple113/v4/6f/24/14/6f241481-7010-7a4b-2acd-68c01bdb5b24/AppIcon-1x_U007emarketing-0-7-0-85-220.png/100x100bb.jpg" alt="Scuba Dive Signals icon" style="border-radius: 12px;">
+            </figure>
+          </div>
+          <div class="level-item">
+            <h3 class="title is-5" style="margin-bottom: 0;">
+              <a href="https://apps.apple.com/us/app/scuba-dive-signals/id1483856571?uo=4" target="_blank" rel="noopener noreferrer">Scuba Dive Signals</a>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <p>Access a handy list of dive signals to safely communicate underwater while scuba diving. This contains a list of hand signals generally recognized by the Recreational Scuba Training Council and its...</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">Sports</span>
+        <span class="tag is-info is-light">Utilities</span>
+      </div>
+    </div>
+  </div>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <div class="level is-mobile" style="margin-bottom: 1rem;">
+        <div class="level-left">
+          <div class="level-item">
+            <figure class="image is-48x48" style="margin-right: 0.75rem;">
+              <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple123/v4/f4/da/09/f4da0992-a5e6-3c3e-0a78-c9d04c3e5d0b/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/100x100bb.jpg" alt="Buoyancy Calc icon" style="border-radius: 12px;">
+            </figure>
+          </div>
+          <div class="level-item">
+            <h3 class="title is-5" style="margin-bottom: 0;">
+              <a href="https://apps.apple.com/us/app/buoyancy-calc/id1482332472?uo=4" target="_blank" rel="noopener noreferrer">Buoyancy Calc</a>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <p>Quickly find out the suggested weight you should add when scuba diving in different environments. Based on PADI's Peak Performance Buoyancy basic weighting guideline*. Enter your weight in pounds or...</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <div class="tags">
+        <span class="tag is-info is-light">Utilities</span>
+        <span class="tag is-info is-light">Sports</span>
+      </div>
+    </div>
+  </div>
+</div></div></div></div></section></div><div id="repos-content" class="tab-content">
+<section class="section" id="repos">
+  <div class="container">
+    <h2 class="subtitle has-text-weight-semibold">You can look at some projects I've made in the past, as well as ones that I'm currently working on.</h2>
+  </div>
+</section><section class="section"><div class="container"><div class="grid is-col-min-16"><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/GitHubinator" target="_blank" rel="noopener noreferrer">GitHubinator</a>
+      </h3>
+      <p>Sublime Text plugin that shows selected text on remote GitHub or Bitbucket repo</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>135</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">Python</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated August 29, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/Edlo" target="_blank" rel="noopener noreferrer">Edlo</a>
+      </h3>
+      <p>The ideal programming font</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>75</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">&lt;nil&gt;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated February 28, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/pindead" target="_blank" rel="noopener noreferrer">pindead</a>
+      </h3>
+      <p>Pinboard dead link checker</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>20</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">Python</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated March 10, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/ipython-book" target="_blank" rel="noopener noreferrer">ipython-book</a>
+      </h3>
+      <p>IPython for Web Devs book</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>11</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">Handlebars</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated October 8, 2022
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/anagram" target="_blank" rel="noopener noreferrer">anagram</a>
+      </h3>
+      <p>nag a ram</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>6</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">Python</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated September 4, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/aicalart" target="_blank" rel="noopener noreferrer">aicalart</a>
+      </h3>
+      <p>News headlines, calendar events, holidays, random styles, and the ever-present orange tabby Hobbes turn into art via GPT + DALL-E.</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>2</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">Python</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated July 25, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/wiki-deceased-detector" target="_blank" rel="noopener noreferrer">wiki-deceased-detector</a>
+      </h3>
+      <p>Chrome extension that automatically highlights links to deceased individuals on Wikipedia with visual cues (dashed red underline, reduced opacity). Analyzes links in real-time using Wikipedia's API to detect death indicators like birth-death dates or past-tense descriptions.</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>1</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">JavaScript</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated August 15, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/bookerics" target="_blank" rel="noopener noreferrer">bookerics</a>
+      </h3>
+      <p>bookmarks, but for Erics</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>1</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">Python</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated June 22, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/django-whiff" target="_blank" rel="noopener noreferrer">django-whiff</a>
+      </h3>
+      <p>A simple Django template tag that combines the functionality of the `with` and `if` tags</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>1</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">Python</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated September 18, 2024
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/hithisisme" target="_blank" rel="noopener noreferrer">hithisisme</a>
+      </h3>
+      <p>minimal static site generator that fetches and shows stuff and things</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">HTML</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated September 6, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/cts" target="_blank" rel="noopener noreferrer">cts</a>
+      </h3>
+      <p>Chimera Tier Software</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">HTML</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated September 4, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/bookerics-web-page" target="_blank" rel="noopener noreferrer">bookerics-web-page</a>
+      </h3>
+      <p>placeholder for bookerics.com</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">HTML</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated September 4, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/hobbes-theme" target="_blank" rel="noopener noreferrer">hobbes-theme</a>
+      </h3>
+      <p>Color scheme based on a warm, earthy palette inspired by the colors of Hobbes the cat, who is a good boy.</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">Vim Script</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated September 4, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/erichamiter.com" target="_blank" rel="noopener noreferrer">erichamiter.com</a>
+      </h3>
+      <p>page of homeness</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">HTML</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated September 4, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/ipython-book-deploy" target="_blank" rel="noopener noreferrer">ipython-book-deploy</a>
+      </h3>
+      <p>The deployment repo for ipythonbook</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">HTML</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated September 4, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/nearby" target="_blank" rel="noopener noreferrer">nearby</a>
+      </h3>
+      <p>Discover what's nearby via Wikipedia API</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">Swift</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated September 4, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/shap-e" target="_blank" rel="noopener noreferrer">shap-e</a>
+      </h3>
+      <p>Generate 3D objects conditioned on text or images</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">&lt;nil&gt;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated August 10, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/canikayakjs" target="_blank" rel="noopener noreferrer">canikayakjs</a>
+      </h3>
+      <p>Can I Kayak (the Harpeth River in Tennessee, Generally)?</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">HTML</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated July 12, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/spectroslide" target="_blank" rel="noopener noreferrer">spectroslide</a>
+      </h3>
+      <p>red / pink / brown noise generator</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">Swift</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated July 4, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/privacy-policy" target="_blank" rel="noopener noreferrer">privacy-policy</a>
+      </h3>
+      <p>Privacy policy for erichamiter.com</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">&lt;nil&gt;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated June 16, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/Vortex" target="_blank" rel="noopener noreferrer">Vortex</a>
+      </h3>
+      <p>High-performance particle effects for SwiftUI.</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">&lt;nil&gt;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated March 18, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/pyufc" target="_blank" rel="noopener noreferrer">pyufc</a>
+      </h3>
+      <p>A Python wrapper for API access to the UFC fighter roster</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">Python</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated January 8, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/rockwell" target="_blank" rel="noopener noreferrer">rockwell</a>
+      </h3>
+      <p>I always feel like somebody's watchin' me (Hee-hee-hee)</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">JavaScript</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated December 1, 2024
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/bookerics-importer" target="_blank" rel="noopener noreferrer">bookerics-importer</a>
+      </h3>
+      <p>blazing fast bookerics importer</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">Rust</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated August 31, 2024
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/emu" target="_blank" rel="noopener noreferrer">emu</a>
+      </h3>
+      <p>Eric's MarkUp language</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">Python</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated May 17, 2024
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/icebreakers" target="_blank" rel="noopener noreferrer">icebreakers</a>
+      </h3>
+      <p>Icebreakers to start a conversation</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">JavaScript</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated May 17, 2024
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/hmdbs" target="_blank" rel="noopener noreferrer">hmdbs</a>
+      </h3>
+      <p>Harpeth Men's Dining and Benevolence Society</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">CSS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated February 24, 2022
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/ipython-website" target="_blank" rel="noopener noreferrer">ipython-website</a>
+      </h3>
+      <p>IPython website sources. Any fixes to the website should be done on this repository.</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">&lt;nil&gt;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated September 12, 2021
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/showerthoughts" target="_blank" rel="noopener noreferrer">showerthoughts</a>
+      </h3>
+      <p>Random submission from r/showerthoughts</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">CSS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated February 11, 2021
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/canikayak" target="_blank" rel="noopener noreferrer">canikayak</a>
+      </h3>
+      <p>Can I Kayak (the Harpeth River in Tennessee, Generally)?</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>0</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">HTML</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated May 31, 2020
+    </p>
+  </footer>
+</div></div></div></div></section></div>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>Last updated September 6, 2025 | <a href="https://github.com/ehamiter/hithisisme/blob/main/index.hi" target="_blank" rel="noopener noreferrer">Source</a></p>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Main tab functionality
+  const tabs = document.querySelectorAll('.tabs li[data-tab]');
+  const tabContents = document.querySelectorAll('.tab-content');
+  
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      const targetId = this.getAttribute('data-tab');
+      
+      // Remove active class from all tabs
+      tabs.forEach(t => t.classList.remove('is-active'));
+      // Add active class to clicked tab
+      this.classList.add('is-active');
+      
+      // Hide all tab content
+      tabContents.forEach(content => content.classList.remove('is-active'));
+      // Show target tab content
+      const targetContent = document.getElementById(targetId + '-content');
+      if (targetContent) {
+        targetContent.classList.add('is-active');
+      }
+    });
+  });
+  
+  // Show first tab by default
+  if (tabs.length > 0) {
+    tabs[0].click();
+  }
+  
+  // Initialize category filter scroll
+  initCategoryFilterScroll();
+});
+
+// Handle category filter scroll fade effects
+function initCategoryFilterScroll() {
+  const scrollContainer = document.querySelector('.category-filter-scroll');
+  if (!scrollContainer) return;
+  
+  function updateScrollState() {
+    const isAtStart = scrollContainer.scrollLeft <= 5;
+    const isAtEnd = scrollContainer.scrollLeft >= scrollContainer.scrollWidth - scrollContainer.clientWidth - 5;
+    
+    scrollContainer.classList.toggle('at-start', isAtStart);
+    scrollContainer.classList.toggle('at-end', isAtEnd);
+  }
+  
+  // Update on scroll
+  scrollContainer.addEventListener('scroll', updateScrollState);
+  
+  // Update on resize
+  window.addEventListener('resize', updateScrollState);
+  
+  // Initial update
+  updateScrollState();
+}
+
+// Category filtering function for things
+function filterThings(category) {
+  const buttons = document.querySelectorAll('.category-filter-buttons .button');
+  const items = document.querySelectorAll('.thing-item');
+  
+  // Update button states
+  buttons.forEach(btn => {
+    btn.classList.remove('is-info', 'is-selected');
+    if ((category === 'all' && btn.textContent === 'All') || 
+        (category !== 'all' && btn.textContent.toLowerCase() === category)) {
+      btn.classList.add('is-info', 'is-selected');
+    }
+  });
+  
+  // Show/hide items
+  items.forEach(item => {
+    if (category === 'all' || item.getAttribute('data-category') === category) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+</script>
+
+</body>
+</html>

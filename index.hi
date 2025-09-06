@@ -1,0 +1,59 @@
+# `index.hi` source file along with an explanation of what the hell this is.
+
+# `hi` is a tiny DSL (domain-specific language) for building a static homepage from a few JSON
+# sources without writing code each time an app is published or a new public repo is created.
+
+# Lines that start with '#' are comments and are ignored by parsing.
+
+# Variables are assigned each respective object fetched from the http call which is saved to a json file.
+# Notice that whitespace can be used to align things visually; this does not affect parsing.
+apps       = apps.json      << https://itunes.apple.com/lookup?id=1482332471&entity=software&country=US
+repos      = repos.json     << https://api.github.com/users/ehamiter/repos?sort=pushed&direction=desc
+
+# You can "lazy load" a reference for usage later by prepending a `!` to the variable.
+# In this case, we don't know what repo we want yet, so we can assign it lazily now and use it later:
+!languages = languages.json << https://api.github.com/repos/ehamiter/{repo.name}/languages
+
+# `things.json` is curated manually, so it's just assigned as-is.
+things = things.json
+
+# This is the start of the visual layout-- we set a section id in between a brace and colon, e.g.
+# {hero: This would be the equivalent of <section id="hero">This would be the equivalent...</section>}
+
+# Also note `hero` is a special id that has a designated section in the `layout.html` file.
+{hero: Hello, and welcome. This is a digital garden of sorts, and this is the latest experiment.}
+
+{things: I like to keep a curated list of things I would recommend to others— this is that list.}
+
+# `things` is an array of objects, so we iterate through them with a for loop.
+# The '^' symbol is used to indicate ascending order sort; omitted, it uses descending as the default.
+[for thing in things: ^ category, title, date_published]
+  thing.title
+  thing.url
+  thing.description
+  thing.date_published
+  thing.category
+
+{apps: I've published a few things on the app store, ranging from games to health apps.}
+
+# `apps` returns with a "results" array that we can access with dot notation:
+[for app in apps.results: currentVersionReleaseDate]
+  app.trackName
+  app.trackViewUrl
+  app.version
+  app.description
+  app.genres
+  app.currentVersionReleaseDate
+
+{repos: You can look at some projects I've made in the past, as well as ones that I'm currently working on.}
+
+# Notice we can sort by multiple properties:
+[for repo in repos: stargazers_count, updated_at]
+  repo.name
+  repo.html_url
+  repo.description
+  repo.updated_at
+  repo.stargazers_count
+  # Here is where we use that `!languages` variable (unwrapped) from before, now that we have `repo` in context.
+  [for name, count in languages: count]
+    name

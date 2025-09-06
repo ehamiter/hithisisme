@@ -1,0 +1,120 @@
+{
+  "Edlo": {},
+  "GitHubinator": {
+    "Python": 9646
+  },
+  "Vortex": {
+    "Swift": 67893
+  },
+  "aicalart": {
+    "CSS": 12555,
+    "HTML": 5058,
+    "JavaScript": 19346,
+    "Python": 97710
+  },
+  "anagram": {
+    "Python": 6448
+  },
+  "asa-or-silas": {
+    "Swift": 7736
+  },
+  "bookerics": {
+    "CSS": 27672,
+    "HTML": 8340,
+    "JavaScript": 36902,
+    "Python": 80389
+  },
+  "bookerics-importer": {
+    "Rust": 4488
+  },
+  "bookerics-web-page": {
+    "HTML": 965
+  },
+  "canikayak": {
+    "CSS": 1991,
+    "HTML": 4983,
+    "Python": 3439
+  },
+  "canikayakjs": {
+    "CSS": 2451,
+    "HTML": 13679,
+    "JavaScript": 7533
+  },
+  "cts": {
+    "HTML": 1809
+  },
+  "django-whiff": {
+    "Python": 3865
+  },
+  "emu": {
+    "HTML": 4479,
+    "Makefile": 226,
+    "Python": 10658
+  },
+  "erichamiter.com": {
+    "CSS": 12771,
+    "HTML": 34139,
+    "JavaScript": 603
+  },
+  "hmdbs": {
+    "CSS": 218056,
+    "HTML": 6199,
+    "JavaScript": 1340
+  },
+  "hobbes-theme": {
+    "Emacs Lisp": 8801,
+    "Vim Script": 9348
+  },
+  "icebreakers": {
+    "CSS": 677,
+    "HTML": 1427,
+    "JavaScript": 46230
+  },
+  "ipython-book": {
+    "CSS": 8318,
+    "Handlebars": 15561
+  },
+  "ipython-book-deploy": {
+    "CSS": 38196,
+    "HTML": 1440041,
+    "Handlebars": 15561,
+    "JavaScript": 42453,
+    "Python": 157
+  },
+  "ipython-website": {
+    "CSS": 611,
+    "HTML": 75952,
+    "JavaScript": 7023,
+    "Makefile": 1767,
+    "Python": 14312
+  },
+  "nearby": {
+    "Swift": 30548
+  },
+  "pindead": {
+    "Python": 6811
+  },
+  "privacy-policy": {},
+  "pyufc": {
+    "Python": 6268
+  },
+  "rockwell": {
+    "JavaScript": 7361
+  },
+  "shap-e": {
+    "Jupyter Notebook": 8520,
+    "Python": 481006
+  },
+  "showerthoughts": {
+    "CSS": 832,
+    "HTML": 646,
+    "JavaScript": 618
+  },
+  "spectroslide": {
+    "Swift": 13391
+  },
+  "wiki-deceased-detector": {
+    "HTML": 7506,
+    "JavaScript": 17553
+  }
+}

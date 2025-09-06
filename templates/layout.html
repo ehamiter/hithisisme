@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Hi, this is me. An automated curation of my thoughts, projects, and more.">
+  <meta name="author" content="Eric Hamiter">
+  <meta name="keywords" content="Eric Hamiter, developer, apps, running, scuba diving, programming, projects">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hithisisme.com/">
+  <meta property="og:title" content="hi this is me">
+  <meta property="og:description" content="Hi, this is me. An automated curation of my thoughts, projects, and more.">
+  <meta property="og:site_name" content="hi this is me">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:url" content="https://hithisisme.com/">
+  <meta property="twitter:title" content="hi this is me">
+  <meta property="twitter:description" content="Hi, this is me. An automated curation of my thoughts, projects, and more.">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://hithisisme.com/">
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏃‍♂️</text></svg>">
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
+  >
+  <style>
+    /* Prevent horizontal overflow on the entire page */
+    html, body {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+    
+    /* Ensure all containers respect viewport width */
+    * {
+      box-sizing: border-box;
+    }
+    
+    .hero.is-dark {
+      background: linear-gradient(135deg, #2d5016 0%, #3e6b1b 50%, #5a8729 100%);
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .hero .container {
+      text-align: center;
+    }
+    
+    /* Hero height */
+    .hero.is-medium .hero-body {
+      padding: 3.75rem 1.5rem;
+    }
+    .section {
+      padding-top: 2rem;
+    }
+    .hero + .section {
+      padding-top: 3rem;
+    }
+    /* Mobile responsiveness improvements */
+    @media screen and (max-width: 768px) {
+      .hero.is-medium .hero-body {
+        padding: 3.25rem 1.5rem;
+      }
+      .title.is-1 {
+        font-size: 2rem !important;
+      }
+      .section {
+        padding: 1.5rem 1.5rem;
+      }
+      .modal-card {
+        margin: 0 1rem;
+        max-height: calc(100vh - 2rem);
+      }
+      
+      /* Ensure containers don't exceed viewport width */
+      .container {
+        max-width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+      }
+      
+      /* Ensure grid content is centered */
+      .grid {
+        justify-content: center !important;
+      }
+      
+      /* Ensure level components stay within bounds */
+      .level:not(.category-filter-level) {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+      
+      /* Ensure buttons container doesn't overflow */
+      .buttons:not(.category-filter-buttons) {
+        flex-wrap: wrap;
+      }
+    }
+    
+    /* Accessibility improvements for contrast ratio */
+    .has-text-grey-light {
+      color: #6b7280 !important; /* Improved contrast ratio while staying subtle */
+    }
+    
+    /* Ensure card footer text meets accessibility standards */
+    .card-footer-item.has-text-grey-light {
+      color: #6b7280 !important;
+    }
+    
+    /* Tab content sections - hidden by default */
+    .tab-content {
+      display: none;
+    }
+    
+    /* Show active tab content */
+    .tab-content.is-active {
+      display: block;
+    }
+    
+    /* Tab styling improvements */
+    .tabs.is-centered.is-medium.is-boxed {
+      margin-bottom: 2rem;
+    }
+    
+    /* Custom earthy green theme for buttons and tags */
+    .button.is-info {
+      background-color: #4a7c59;
+      border-color: #4a7c59;
+      color: #fff;
+    }
+    
+    .button.is-info:hover {
+      background-color: #3e6b4a;
+      border-color: #3e6b4a;
+    }
+    
+    .button.is-info.is-selected {
+      background-color: #2d5016;
+      border-color: #2d5016;
+    }
+    
+    .tag.is-info {
+      background-color: #4a7c59;
+      color: #fff;
+    }
+    
+    .tag.is-info.is-light {
+      background-color: #e8f5e8;
+      color: #2d5016;
+    }
+    
+    /* Category filter horizontal scroll solution */
+    .category-filter-wrapper {
+      position: relative;
+      margin-bottom: 2rem;
+      width: 100%;
+      overflow: hidden;
+    }
+    
+    .category-filter-scroll {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE/Edge */
+      -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+      padding: 0 1rem;
+      width: 100%;
+    }
+    
+    .category-filter-scroll::-webkit-scrollbar {
+      display: none; /* Chrome/Safari */
+    }
+    
+    .category-filter-level {
+      min-width: max-content;
+      margin-bottom: 0;
+    }
+    
+    .category-filter-buttons {
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    
+    /* Fade gradients for scroll indication */
+    @media screen and (max-width: 768px) {
+      .category-filter-wrapper::before,
+      .category-filter-wrapper::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 1rem;
+        z-index: 1;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+      
+      .category-filter-wrapper::before {
+        left: 0;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0.8), transparent);
+      }
+      
+      .category-filter-wrapper::after {
+        right: 0;
+        background: linear-gradient(to left, rgba(255, 255, 255, 0.8), transparent);
+      }
+      
+      /* Hide gradients when at scroll boundaries */
+      .category-filter-scroll.at-start::before {
+        opacity: 0;
+      }
+      
+      .category-filter-scroll.at-end::after {
+        opacity: 0;
+      }
+      
+      .category-filter-scroll {
+        padding: 0 1.5rem;
+        margin: 0 -1.5rem;
+      }
+    }
+    
+    /* Override Bulma's default link colors with earthy green theme */
+    :root {
+      --bulma-link: #4a7c59;
+      --bulma-link-h: 138deg;
+      --bulma-link-s: 25%;
+      --bulma-link-l: 40%;
+    }
+    
+    /* Ensure links use our custom green color */
+    a, .has-text-link {
+      color: var(--bulma-link) !important;
+    }
+    
+    a:hover, .has-text-link:hover {
+      color: #2d5016 !important;
+    }
+    
+    /* Custom Dark Mode - Better contrast and readability */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        /* Main scheme colors - dark but not too dark for readability */
+        --bulma-scheme-main: #1a1a1a;
+        --bulma-scheme-main-bis: #1f1f1f;
+        --bulma-scheme-main-ter: #242424;
+        --bulma-background: #1a1a1a;
+        
+        /* Text colors with good contrast */
+        --bulma-text: #e8e8e8;
+        --bulma-text-weak: #b8b8b8;
+        --bulma-text-strong: #ffffff;
+        --bulma-text-title: #ffffff;
+        
+        /* Border colors */
+        --bulma-border: #404040;
+        --bulma-border-weak: #333333;
+        
+        /* Keep our earthy green theme but adjust for dark mode */
+        --bulma-link: #6b9a7a;
+        --bulma-primary: #6b9a7a;
+        --bulma-info: #6b9a7a;
+      }
+      
+      /* Hero section dark mode */
+      .hero.is-dark {
+        background: linear-gradient(135deg, #1a3d0f 0%, #2d5016 50%, #3e6b1b 100%) !important;
+      }
+      
+      /* Card backgrounds */
+      .card {
+        background-color: #242424 !important;
+        border: 1px solid #404040 !important;
+      }
+      
+      /* Button adjustments for dark mode */
+      .button.is-info {
+        background-color: #6b9a7a !important;
+        border-color: #6b9a7a !important;
+        color: #1a1a1a !important;
+      }
+      
+      .button.is-info:hover {
+        background-color: #5a8866 !important;
+        border-color: #5a8866 !important;
+      }
+      
+      .button.is-info.is-selected {
+        background-color: #4a7653 !important;
+        border-color: #4a7653 !important;
+        color: #ffffff !important;
+      }
+      
+      /* Tag adjustments for dark mode */
+      .tag.is-info {
+        background-color: #6b9a7a !important;
+        color: #1a1a1a !important;
+      }
+      
+      .tag.is-info.is-light {
+        background-color: #2a3d2a !important;
+        color: #6b9a7a !important;
+      }
+      
+      /* Link colors for dark mode */
+      a, .has-text-link {
+        color: #6b9a7a !important;
+      }
+      
+      a:hover, .has-text-link:hover {
+        color: #5a8866 !important;
+      }
+      
+      /* Footer adjustments */
+      .footer {
+        background-color: #1a1a1a !important;
+        border-top: 1px solid #404040 !important;
+      }
+      
+      /* Modal adjustments */
+      .modal-card {
+        background-color: #242424 !important;
+      }
+      
+      .modal-card-head {
+        background-color: #1a1a1a !important;
+        border-bottom: 1px solid #404040 !important;
+      }
+      
+      .modal-card-foot {
+        background-color: #1a1a1a !important;
+        border-top: 1px solid #404040 !important;
+      }
+      
+      /* Improve text contrast on grey backgrounds */
+      .has-text-grey-light {
+        color: #b8b8b8 !important;
+      }
+      
+      .card-footer-item.has-text-grey-light {
+        color: #b8b8b8 !important;
+      }
+      
+      /* Fix category filter gradients for dark mode */
+      .category-filter-wrapper::before {
+        background: linear-gradient(to right, rgba(26, 26, 26, 0.8), transparent) !important;
+      }
+      
+      .category-filter-wrapper::after {
+        background: linear-gradient(to left, rgba(26, 26, 26, 0.8), transparent) !important;
+      }
+      
+      /* Tab styling for dark mode */
+      .tabs li.is-active a {
+        border-bottom-color: #6b9a7a !important;
+        color: #6b9a7a !important;
+      }
+      
+      .tabs a:hover {
+        border-bottom-color: #5a8866 !important;
+        color: #5a8866 !important;
+      }
+      
+      /* Notification and message components */
+      .notification {
+        background-color: #242424 !important;
+        border: 1px solid #404040 !important;
+      }
+      
+      /* Input and form elements */
+      .input, .textarea, .select select {
+        background-color: #242424 !important;
+        border-color: #404040 !important;
+        color: #e8e8e8 !important;
+      }
+      
+      .input:focus, .textarea:focus, .select select:focus {
+        border-color: #6b9a7a !important;
+        box-shadow: 0 0 0 0.125em rgba(107, 154, 122, 0.25) !important;
+      }
+      
+      /* Fix pills/tags in things and repos to match apps style */
+      .tag:not(.is-info):not(.is-primary):not(.is-success):not(.is-warning):not(.is-danger):not(.is-link) {
+        background-color: #2A3D2A !important;
+        color: #6b9a7a !important;
+      }
+      
+      /* Specifically target category tags in things and language/topic tags in repos */
+      .card-footer .tag,
+      .content .tag {
+        background-color: #2A3D2A !important;
+        color: #6b9a7a !important;
+      }
+      
+      /* Fix star icons in repos section - make them dark green instead of black */
+      .card .content .has-text-black {
+        color: #4a7653 !important;
+      }
+      
+      /* Target star SVG icons specifically in repos */
+      .card .content svg {
+        fill: #4a7653 !important;
+      }
+      
+      /* Target the level item containing the star SVG */
+      .card .level-item svg {
+        fill: #4a7653 !important;
+      }
+    }
+  </style>
+  <title>hi this is me</title>
+</head>
+<body>
+<!--CONTENT-->
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>Last updated <!--LAST_UPDATED--> | <a href="https://github.com/ehamiter/hithisisme/blob/main/index.hi" target="_blank" rel="noopener noreferrer">Source</a></p>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Main tab functionality
+  const tabs = document.querySelectorAll('.tabs li[data-tab]');
+  const tabContents = document.querySelectorAll('.tab-content');
+  
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      const targetId = this.getAttribute('data-tab');
+      
+      // Remove active class from all tabs
+      tabs.forEach(t => t.classList.remove('is-active'));
+      // Add active class to clicked tab
+      this.classList.add('is-active');
+      
+      // Hide all tab content
+      tabContents.forEach(content => content.classList.remove('is-active'));
+      // Show target tab content
+      const targetContent = document.getElementById(targetId + '-content');
+      if (targetContent) {
+        targetContent.classList.add('is-active');
+      }
+    });
+  });
+  
+  // Show first tab by default
+  if (tabs.length > 0) {
+    tabs[0].click();
+  }
+  
+  // Initialize category filter scroll
+  initCategoryFilterScroll();
+});
+
+// Handle category filter scroll fade effects
+function initCategoryFilterScroll() {
+  const scrollContainer = document.querySelector('.category-filter-scroll');
+  if (!scrollContainer) return;
+  
+  function updateScrollState() {
+    const isAtStart = scrollContainer.scrollLeft <= 5;
+    const isAtEnd = scrollContainer.scrollLeft >= scrollContainer.scrollWidth - scrollContainer.clientWidth - 5;
+    
+    scrollContainer.classList.toggle('at-start', isAtStart);
+    scrollContainer.classList.toggle('at-end', isAtEnd);
+  }
+  
+  // Update on scroll
+  scrollContainer.addEventListener('scroll', updateScrollState);
+  
+  // Update on resize
+  window.addEventListener('resize', updateScrollState);
+  
+  // Initial update
+  updateScrollState();
+}
+
+// Category filtering function for things
+function filterThings(category) {
+  const buttons = document.querySelectorAll('.category-filter-buttons .button');
+  const items = document.querySelectorAll('.thing-item');
+  
+  // Update button states
+  buttons.forEach(btn => {
+    btn.classList.remove('is-info', 'is-selected');
+    if ((category === 'all' && btn.textContent === 'All') || 
+        (category !== 'all' && btn.textContent.toLowerCase() === category)) {
+      btn.classList.add('is-info', 'is-selected');
+    }
+  });
+  
+  // Show/hide items
+  items.forEach(item => {
+    if (category === 'all' || item.getAttribute('data-category') === category) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+</script>
+
+</body>
+</html>
