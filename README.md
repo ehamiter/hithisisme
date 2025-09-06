@@ -1,6 +1,6 @@
 ## hithisisme
 
-Minimal static site generator.
+Minimal static site generator with dynamic ROYGBIV color theming that evolves throughout the year.
 
 ### Usage
 
@@ -10,8 +10,35 @@ go run dev.go
 
 # Development mode (builds, renders, and serves on localhost:8000)
 go run dev.go --serve
+
+# Use a specific theme color (overrides automatic color generation)
+THEME_COLOR="#2d5016" go run dev.go
 ```
 
+### Dynamic Color System
+
+The site automatically generates a new color theme each day based on the current date, progressing through the ROYGBIV spectrum over the year:
+
+- **January**: Red 🔴
+- **February/March**: Orange 🟠
+- **April/May**: Yellow 🟡
+- **June/July**: Green 🟢
+- **August/September**: Blue 🔵
+- **October/November**: Indigo 🟣
+- **December**: Violet 🟪
+
+Each day within a color family gets subtle variations in hue, saturation, and lightness.
+
+### Technical Details
+
+The color system uses a CSS custom properties approach with a template system:
+
+- **CSS Template**: `templates/style.css.template` contains the design with `{{THEME_COLORS}}` placeholder
+- **Color Generation**: HSL-based algorithm in `sitegen/colors.go` creates mathematically related light/dark theme variants
+- **Build Integration**: Colors are generated and CSS is written during the render process
+- **Override Support**: Use `THEME_COLOR` environment variable to manually set colors during development
+
+The system generates complementary colors for buttons, links, gradients, and background tints, ensuring consistent design across both light and dark themes.
 
 ### Adding Things
 

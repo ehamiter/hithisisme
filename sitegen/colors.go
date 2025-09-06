@@ -119,33 +119,67 @@ func GenerateThemeFromBase(baseHex string) string {
 }
 
 // GenerateColorFromTimestamp creates a color based on timestamp
-// Uses a combination of time-based factors to create interesting, seasonal colors
+// Progresses through ROYGBIV spectrum over the year, perfect for daily builds
 func GenerateColorFromTimestamp() string {
 	now := time.Now()
+	month := int(now.Month())
+	dayOfMonth := now.Day()
 	
-	// Create a more sophisticated color generation algorithm
-	// Use hour and day to create a hue that cycles through the spectrum
-	hourWeight := float64(now.Hour()) * 15.0 // 0-345 degrees
-	dayWeight := float64(now.YearDay()) * 0.986 // Almost full cycle through year
-	hue := math.Mod(hourWeight + dayWeight, 360.0)
+	// Map months to ROYGBIV color ranges
+	var baseHue float64
+	var colorName string
 	
-	// Adjust for pleasing color ranges - prefer greens, blues, purples, warm earth tones
-	// Avoid harsh yellows and magentas by mapping to more pleasing ranges
-	if hue >= 45 && hue < 75 { // yellow range -> shift to green
-		hue = 45 + (hue-45)*0.5 // compress yellow range
-	} else if hue >= 285 && hue < 315 { // magenta range -> shift to purple/blue
-		hue = 270 + (hue-285)*0.5 // compress magenta range
+	switch month {
+	case 1: // January - Red
+		baseHue = 0
+		colorName = "Red"
+	case 2, 3: // February, March - Orange  
+		baseHue = 25
+		colorName = "Orange"
+	case 4, 5: // April, May - Yellow
+		baseHue = 50
+		colorName = "Yellow"
+	case 6, 7: // June, July - Green
+		baseHue = 120
+		colorName = "Green"
+	case 8, 9: // August, September - Blue
+		baseHue = 240
+		colorName = "Blue"
+	case 10, 11: // October, November - Indigo
+		baseHue = 270
+		colorName = "Indigo"
+	case 12: // December - Violet
+		baseHue = 300
+		colorName = "Violet"
 	}
 	
-	// Use month for saturation variation (45-75% for rich but not overwhelming colors)
-	monthSat := 45 + (int(now.Month())%30)
+	// Add subtle daily variation within the color family (±10 degrees)
+	dailyVariation := (float64(dayOfMonth-1) / 30.0) * 20.0 - 10.0 // -10 to +10
+	hue := math.Mod(baseHue + dailyVariation, 360.0)
+	if hue < 0 {
+		hue += 360
+	}
 	
-	// Use week of year for lightness variation (18-32% for darker, more sophisticated colors)
-	weekOfYear := int(now.YearDay() / 7)
-	lightness := 18 + (weekOfYear%14)
+	// Seasonal saturation: higher in summer, lower in winter for natural feel
+	// Range: 45-70% to keep colors rich but not overwhelming
+	seasonalSat := 45.0
+	if month >= 4 && month <= 9 { // Spring/Summer: more vibrant
+		seasonalSat = 60.0 + float64(dayOfMonth%10) // 60-69%
+	} else { // Fall/Winter: more muted
+		seasonalSat = 45.0 + float64(dayOfMonth%10) // 45-54%
+	}
+	
+	// Lightness varies by day for subtle daily difference while staying dark
+	// Range: 18-30% to ensure good contrast for both light and dark themes
+	lightness := 18.0 + float64(dayOfMonth%12) // 18-29%
 	
 	// Convert HSL to hex
-	return HSLToHex(hue, float64(monthSat), float64(lightness))
+	result := HSLToHex(hue, seasonalSat, lightness)
+	
+	// Log which color family we're in (helpful for debugging/interest)
+	fmt.Printf("Theme: %s family (month %d, day %d) ", colorName, month, dayOfMonth)
+	
+	return result
 }
 
 // GetDefaultColor returns the current default color for fallback
