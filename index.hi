@@ -21,9 +21,9 @@ things = things.json
 # {hero: This would be the equivalent of <section id="hero">This would be the equivalent...</section>}
 
 # Also note `hero` is a special id that has a designated section in the `layout.html` file.
-{hero: Hello, and welcome. This is a digital garden of sorts, and this is the latest experiment.}
+{hero: Hi, this is [me](https://erichamiter.com)— and a curation of my likes and creations.}
 
-{things: I like to keep a curated list of things I would recommend to others— this is that list.}
+{things: I try to maintain a curated list of products or services I would recommend to others— this is that list.}
 
 # `things` is an array of objects, so we iterate through them with a for loop.
 # The '^' symbol is used to indicate ascending order sort; omitted, it uses descending as the default.
@@ -34,7 +34,7 @@ things = things.json
   thing.date_published
   thing.category
 
-{apps: I've published a few things on the app store, ranging from games to health apps.}
+{apps: I've published a few useful iOS apps, ranging from recreational-focused activites to casual games.}
 
 # `apps` returns with a "results" array that we can access with dot notation:
 [for app in apps.results: currentVersionReleaseDate]
@@ -45,7 +45,7 @@ things = things.json
   app.genres
   app.currentVersionReleaseDate
 
-{repos: You can look at some projects I've made in the past, as well as ones that I'm currently working on.}
+{repos: Read about current projects I'm working on (as well as past work I've done) on GitHub.}
 
 # Notice we can sort by multiple properties:
 [for repo in repos: stargazers_count, updated_at]

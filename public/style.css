@@ -1,10 +1,10 @@
 /* Dynamic Color Theme - Generated at build time */
 :root {
-  /* Base color - generated from #141d65 */
-  --base-color: #141d65;
-  --base-hue: 233deg;
-  --base-saturation: 67%;
-  --base-lightness: 24%;
+  /* Base color - generated from #121353 */
+  --base-color: #121353;
+  --base-hue: 239deg;
+  --base-saturation: 64%;
+  --base-lightness: 20%;
   
   /* Light mode color variations derived from base color */
   --color-primary: hsl(var(--base-hue), var(--base-saturation), var(--base-lightness));
@@ -271,6 +271,16 @@ a, .has-text-link {
 
 a:hover, .has-text-link:hover {
   color: var(--color-primary) !important;
+}
+
+/* Ensure hero title links match surrounding text color and stay underlined */
+.hero .title a,
+.hero .title a:visited,
+.hero .title a:hover,
+.hero .title a:focus,
+.hero .title a:active {
+  color: inherit !important;          /* match "Hi, this is" color (e.g., white) */
+  text-decoration: underline;         /* indicate link without changing color */
 }
 
 /* Custom Dark Mode - Better contrast and readability */
