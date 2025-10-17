@@ -12,8 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pages: write
-      id-token: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
@@ -21,10 +19,9 @@ jobs:
           go-version: '1.22'
       - run: go build -o hi ./cmd/sitegen
       - run: ./hi render --input index.hi --out public/index.html --data-dir data --layout templates/layout.html
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: 'public'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/ data/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Daily build: update site and data" && git push)
