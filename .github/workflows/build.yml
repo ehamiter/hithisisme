@@ -21,3 +21,10 @@ jobs:
           go-version: '1.22'
       - run: go build -o hi ./cmd/sitegen
       - run: ./hi render --input index.hi --out public/index.html --data-dir data --layout templates/layout.html
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
