@@ -23,6 +23,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -60,6 +61,11 @@ func (f *Fetcher) Fetch(target, url string) ([]byte, error) {
 	if f.client == nil {
 		f.client = &http.Client{Timeout: 20 * time.Second}
 	}
+	
+	if strings.Contains(url, "api.github.com") && strings.Contains(url, "/repos") {
+		return f.fetchGitHubRepos(target, url)
+	}
+	
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
@@ -93,4 +99,69 @@ func (f *Fetcher) Fetch(target, url string) ([]byte, error) {
 	default:
 		return nil, fmt.Errorf("unexpected status %d", resp.StatusCode)
 	}
+}
+
+func (f *Fetcher) fetchGitHubRepos(target, baseURL string) ([]byte, error) {
+	var allRepos []map[string]interface{}
+	page := 1
+	perPage := 100
+	
+	for {
+		url := fmt.Sprintf("%s&per_page=%d&page=%d", baseURL, perPage, page)
+		req, err := http.NewRequest("GET", url, nil)
+		if err != nil {
+			return nil, err
+		}
+		req.Header.Set("User-Agent", "hithisisme/0.1")
+		
+		resp, err := f.client.Do(req)
+		if err != nil {
+			return nil, err
+		}
+		
+		body, err := ioutil.ReadAll(resp.Body)
+		resp.Body.Close()
+		
+		if err != nil {
+			return nil, err
+		}
+		
+		if resp.StatusCode != http.StatusOK {
+			return nil, fmt.Errorf("unexpected status %d", resp.StatusCode)
+		}
+		
+		var repos []map[string]interface{}
+		if err := json.Unmarshal(body, &repos); err != nil {
+			return nil, err
+		}
+		
+		if len(repos) == 0 {
+			break
+		}
+		
+		for _, repo := range repos {
+			if archived, ok := repo["archived"].(bool); ok && archived {
+				continue
+			}
+			allRepos = append(allRepos, repo)
+		}
+		
+		if len(repos) < perPage {
+			break
+		}
+		
+		page++
+	}
+	
+	result, err := json.Marshal(allRepos)
+	if err != nil {
+		return nil, err
+	}
+	
+	path := filepath.Join(f.DataDir, target)
+	if err := os.MkdirAll(filepath.Dir(path), 0o755); err == nil {
+		ioutil.WriteFile(path, result, 0o644)
+	}
+	
+	return result, nil
 }
