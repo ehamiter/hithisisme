@@ -49,11 +49,20 @@ func main() {
 
 	// Only serve if --serve flag is provided
 	if *serve {
-		// Serve files from ./public directory
-		fs := http.FileServer(http.Dir("public"))
-
-		// Mount it at root
-		http.Handle("/", fs)
+		// Create a custom handler that serves index.html for all routes (SPA support)
+		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+			path := "public" + r.URL.Path
+			
+			// Check if the requested file exists
+			if _, err := os.Stat(path); os.IsNotExist(err) {
+				// File doesn't exist, serve index.html instead
+				http.ServeFile(w, r, "public/index.html")
+				return
+			}
+			
+			// File exists, serve it
+			http.ServeFile(w, r, path)
+		})
 
 		// Listen on port 8000
 		log.Println("Serving on http://localhost:8000")
