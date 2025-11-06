@@ -123,6 +123,11 @@ func Render(opts RenderOptions) error {
 		return fmt.Errorf("failed to generate CSS: %w", err)
 	}
 	
+	// Generate individual thing pages
+	if err := ctx.generateThingPages(filepath.Dir(opts.Out)); err != nil {
+		return fmt.Errorf("failed to generate thing pages: %w", err)
+	}
+	
 	fetcher.SaveETags()
 	// save lazy caches
 	for _, lb := range ctx.lazy {
@@ -718,6 +723,16 @@ func (c *context) renderThingCard(nodes []Node, vars map[string]interface{}, buf
 	buf.WriteString(`<div class="card" id="`)
 	buf.WriteString(htmlEscape(slug))
 	buf.WriteString(`">
+  <button class="clipboard-btn" onclick="copyCardLink(event, '`)
+	buf.WriteString(htmlEscape(category))
+	buf.WriteString(`', '`)
+	buf.WriteString(htmlEscape(slug))
+	buf.WriteString(`')" title="Copy link to clipboard">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+    </svg>
+  </button>
   <div class="card-content">
     <div class="content">
       <h3 class="title is-5">
@@ -827,6 +842,62 @@ func (c *context) renderRepoCard(nodes []Node, vars map[string]interface{}, buf 
     </p>
   </footer>
 </div>`)
+	
+	return nil
+}
+
+func (c *context) generateThingPages(outDir string) error {
+	// Load things data
+	thingsData, ok := c.bindings["things"]
+	if !ok {
+		return nil
+	}
+	
+	things, ok := thingsData.([]interface{})
+	if !ok {
+		return nil
+	}
+	
+	// Load template
+	templatePath := "templates/thing.html"
+	templateBytes, err := os.ReadFile(templatePath)
+	if err != nil {
+		return err
+	}
+	template := string(templateBytes)
+	
+	// Generate page for each thing
+	for _, t := range things {
+		thing, ok := t.(map[string]interface{})
+		if !ok {
+			continue
+		}
+		
+		title := fmt.Sprintf("%v", thing["title"])
+		description := fmt.Sprintf("%v", thing["description"])
+		category := fmt.Sprintf("%v", thing["category"])
+		slug := slugify(title)
+		url := fmt.Sprintf("https://hithisisme.com/things/%s/%s.html", category, slug)
+		
+		// Replace placeholders
+		page := strings.ReplaceAll(template, "{{TITLE}}", htmlEscape(title))
+		page = strings.ReplaceAll(page, "{{DESCRIPTION}}", htmlEscape(description))
+		page = strings.ReplaceAll(page, "{{CATEGORY}}", htmlEscape(category))
+		page = strings.ReplaceAll(page, "{{SLUG}}", htmlEscape(slug))
+		page = strings.ReplaceAll(page, "{{URL}}", htmlEscape(url))
+		
+		// Create directory
+		thingDir := filepath.Join(outDir, "things", category)
+		if err := os.MkdirAll(thingDir, 0o755); err != nil {
+			return err
+		}
+		
+		// Write file
+		filePath := filepath.Join(thingDir, slug+".html")
+		if err := os.WriteFile(filePath, []byte(page), 0o644); err != nil {
+			return err
+		}
+	}
 	
 	return nil
 }

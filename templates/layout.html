@@ -204,6 +204,30 @@ function highlightCard(slug) {
     }
   }, 300);
 }
+
+// Copy card link to clipboard
+function copyCardLink(event, category, slug) {
+  const url = `https://hithisisme.com/things/${category}/${slug}.html`;
+  
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = event.target.closest('.clipboard-btn');
+    if (btn) {
+      const svg = btn.querySelector('svg');
+      const originalHTML = svg.innerHTML;
+      
+      // Change to checkmark icon
+      svg.innerHTML = '<path d="M20 6L9 17l-5-5"></path>';
+      btn.classList.add('copied');
+      
+      setTimeout(() => {
+        svg.innerHTML = originalHTML;
+        btn.classList.remove('copied');
+      }, 1500);
+    }
+  }).catch(err => {
+    console.error('Failed to copy link:', err);
+  });
+}
 </script>
 
 </body>

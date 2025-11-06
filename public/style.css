@@ -431,6 +431,44 @@ a:hover, .has-text-link:hover {
   }
 }
 
+/* Clipboard button styling */
+.clipboard-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  opacity: 0.3;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+  z-index: 10;
+}
+
+.clipboard-btn:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.clipboard-btn.copied {
+  opacity: 1 !important;
+  background-color: rgba(34, 197, 94, 0.2) !important;
+}
+
+.clipboard-btn.copied svg {
+  color: #22c55e !important;
+}
+
+.clipboard-btn svg {
+  display: block;
+  color: currentColor;
+}
+
+.card {
+  position: relative;
+}
+
 /* Highlight animation for anchored cards */
 @keyframes highlight-pulse {
   0%, 100% {
@@ -459,5 +497,14 @@ a:hover, .has-text-link:hover {
   .card.highlighted {
     animation: highlight-pulse-dark 2s ease-in-out;
     border: 2px solid var(--color-interactive-dark) !important;
+  }
+  
+  /* Clipboard button dark mode */
+  .clipboard-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .clipboard-btn.copied {
+    background-color: rgba(34, 197, 94, 0.3) !important;
   }
 }
