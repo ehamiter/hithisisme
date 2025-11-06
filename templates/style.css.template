@@ -426,3 +426,34 @@ a:hover, .has-text-link:hover {
     fill: var(--color-primary-dark) !important;
   }
 }
+
+/* Highlight animation for anchored cards */
+@keyframes highlight-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px var(--color-interactive);
+  }
+}
+
+.card.highlighted {
+  animation: highlight-pulse 2s ease-in-out;
+  border: 2px solid var(--color-interactive) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  @keyframes highlight-pulse-dark {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+    50% {
+      box-shadow: 0 0 20px 5px var(--color-interactive-dark);
+    }
+  }
+  
+  .card.highlighted {
+    animation: highlight-pulse-dark 2s ease-in-out;
+    border: 2px solid var(--color-interactive-dark) !important;
+  }
+}

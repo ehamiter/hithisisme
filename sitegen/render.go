@@ -545,6 +545,42 @@ func htmlEscape(s string) string {
 	return buf.String()
 }
 
+func slugify(s string) string {
+	s = strings.ToLower(s)
+	s = strings.ReplaceAll(s, " ", "_")
+	s = strings.ReplaceAll(s, "\"", "")
+	s = strings.ReplaceAll(s, "'", "")
+	s = strings.ReplaceAll(s, "&", "")
+	s = strings.ReplaceAll(s, "(", "")
+	s = strings.ReplaceAll(s, ")", "")
+	s = strings.ReplaceAll(s, "[", "")
+	s = strings.ReplaceAll(s, "]", "")
+	s = strings.ReplaceAll(s, "{", "")
+	s = strings.ReplaceAll(s, "}", "")
+	s = strings.ReplaceAll(s, "/", "")
+	s = strings.ReplaceAll(s, "\\", "")
+	s = strings.ReplaceAll(s, "?", "")
+	s = strings.ReplaceAll(s, "#", "")
+	s = strings.ReplaceAll(s, "%", "")
+	s = strings.ReplaceAll(s, "!", "")
+	s = strings.ReplaceAll(s, "@", "")
+	s = strings.ReplaceAll(s, "$", "")
+	s = strings.ReplaceAll(s, "^", "")
+	s = strings.ReplaceAll(s, "*", "")
+	s = strings.ReplaceAll(s, "+", "")
+	s = strings.ReplaceAll(s, "=", "")
+	s = strings.ReplaceAll(s, "<", "")
+	s = strings.ReplaceAll(s, ">", "")
+	s = strings.ReplaceAll(s, "|", "")
+	s = strings.ReplaceAll(s, "~", "")
+	s = strings.ReplaceAll(s, "`", "")
+	s = strings.ReplaceAll(s, ":", "")
+	s = strings.ReplaceAll(s, ";", "")
+	s = strings.ReplaceAll(s, ",", "")
+	s = strings.ReplaceAll(s, ".", "")
+	return s
+}
+
 func (c *context) renderAppCard(nodes []Node, vars map[string]interface{}, buf *strings.Builder) error {
 	// Extract app data from variables
 	app := vars["app"]
@@ -674,11 +710,14 @@ func (c *context) renderThingCard(nodes []Node, vars map[string]interface{}, buf
 	url := fmt.Sprintf("%v", thingMap["url"])
 	description := fmt.Sprintf("%v", thingMap["description"])
 	category := fmt.Sprintf("%v", thingMap["category"])
+	slug := slugify(title)
 	
 	// Use full description without truncation for things
 	truncatedDesc := description
 	
-	buf.WriteString(`<div class="card">
+	buf.WriteString(`<div class="card" id="`)
+	buf.WriteString(htmlEscape(slug))
+	buf.WriteString(`">
   <div class="card-content">
     <div class="content">
       <h3 class="title is-5">

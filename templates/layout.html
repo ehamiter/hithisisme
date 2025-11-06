@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Parse initial URL and activate appropriate section
   const path = window.location.pathname;
+  const hash = window.location.hash.substring(1);
   const pathParts = path.split('/').filter(p => p);
   
   if (pathParts.length > 0) {
@@ -99,8 +100,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const validSections = ['things', 'apps', 'repos'];
     if (validSections.includes(section)) {
-      history.replaceState({section: section, subcategory: subcategory}, '', path);
+      history.replaceState({section: section, subcategory: subcategory}, '', path + (hash ? '#' + hash : ''));
       activateTab(section, subcategory);
+      if (hash) {
+        highlightCard(hash);
+      }
     } else {
       // Invalid section, show first tab
       if (tabs.length > 0) {
@@ -168,12 +172,37 @@ function filterThings(category) {
     }
   });
   
+  // Preserve hash if it exists
+  const hash = window.location.hash;
+  
   // Update URL with subcategory
   if (category !== 'all') {
-    history.pushState({section: 'things', subcategory: category}, '', `/things/${category}`);
+    history.pushState({section: 'things', subcategory: category}, '', `/things/${category}${hash}`);
   } else {
-    history.pushState({section: 'things'}, '', '/things');
+    history.pushState({section: 'things'}, '', `/things${hash}`);
   }
+}
+
+// Slugify function (matches Go implementation)
+function slugify(str) {
+  return str.toLowerCase()
+    .replace(/ /g, '_')
+    .replace(/["'&()\[\]{}\/\\?#%!@$^*+=<>|~`:;,.]/g, '');
+}
+
+// Highlight card function
+function highlightCard(slug) {
+  setTimeout(() => {
+    const card = document.getElementById(slug);
+    if (card) {
+      card.classList.add('highlighted');
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      
+      setTimeout(() => {
+        card.classList.remove('highlighted');
+      }, 2000);
+    }
+  }, 300);
 }
 </script>
 
