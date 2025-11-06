@@ -1908,7 +1908,7 @@ function highlightCard(slug) {
 
 // Copy card link to clipboard
 function copyCardLink(event, category, slug) {
-  const url = `https://hithisisme.com/things/${category}/${slug}.html`;
+  const url = `https://hithisisme.com/things/${category}#${slug}`;
   
   navigator.clipboard.writeText(url).then(() => {
     const btn = event.target.closest('.clipboard-btn');
