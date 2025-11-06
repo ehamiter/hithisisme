@@ -5,8 +5,11 @@ services:
     staticPublishPath: ./public
     routes:
       - type: rewrite
-        source: /things/*
-        destination: /things/:splat
+        source: /things/*/*
+        destination: /things/:category/:slug
+      - type: rewrite
+        source: /things/:category
+        destination: /index.html
       - type: rewrite
         source: /*
         destination: /index.html
