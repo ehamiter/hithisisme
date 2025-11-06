@@ -153,7 +153,7 @@ func (f *Fetcher) fetchGitHubRepos(target, baseURL string) ([]byte, error) {
 		page++
 	}
 	
-	result, err := json.Marshal(allRepos)
+	result, err := json.MarshalIndent(allRepos, "", "  ")
 	if err != nil {
 		return nil, err
 	}
