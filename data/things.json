@@ -15,8 +15,8 @@
   },
   {
     "category": "running",
-    "title": "Janji M's 5” AFO Middle Short",
-    "url": "https://janji.com/products/ms-5-afo-middle-short",
+    "title": "REI Co-op Swiftland 7\" Running Shorts - Men's",
+    "url": "https://www.rei.com/product/245601/rei-co-op-swiftland-7-running-shorts-mens",
     "description": "My favorite running shorts. Lightweight and doubles as swim trunks for a post-run dip.",
     "date_published": "2025-09-01"
   },
@@ -57,6 +57,13 @@
   },
   {
     "category": "software",
+    "title": "Amp",
+    "url": "https://ampcode.com/",
+    "description": "Amp is a frontier coding agent for your terminal and editor. Currently my favorite AI pair programmer.",
+    "date_published": "2025-09-01"
+  },
+  {
+    "category": "software",
     "title": "Sublime Text",
     "url": "https://sublimetext.com",
     "description": "My go-to editor for manipulating text and mapping out ideas in code.",
@@ -64,9 +71,9 @@
   },
   {
     "category": "software",
-    "title": "kitty terminal emulator",
-    "url": "https://sw.kovidgoyal.net/kitty/",
-    "description": "My terminal program of choice— extremely configurable and dependable.",
+    "title": "Ghostty",
+    "url": "https://ghostty.org",
+    "description": "Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration.",
     "date_published": "2025-09-01"
   },
   {
