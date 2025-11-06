@@ -823,6 +823,33 @@ KEY FEATURES
   <div class="card-content">
     <div class="content">
       <h3 class="title is-5">
+        <a href="https://github.com/ehamiter/mbox2db" target="_blank" rel="noopener noreferrer">mbox2db</a>
+      </h3>
+      <p>Convert a Gmail (.mbox) export into a SQLite db</p>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
+              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
+            </svg>
+            <span>1</span>
+          </div>
+          <div class="level-item">
+            <span class="tag is-info is-light">Rust</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <p class="card-footer-item has-text-grey-light">
+      Last updated November 6, 2025
+    </p>
+  </footer>
+</div></div><div class="cell"><div class="card">
+  <div class="card-content">
+    <div class="content">
+      <h3 class="title is-5">
         <a href="https://github.com/ehamiter/bookerics" target="_blank" rel="noopener noreferrer">bookerics</a>
       </h3>
       <p>bookmarks, but for Erics</p>
@@ -925,33 +952,6 @@ KEY FEATURES
   <footer class="card-footer">
     <p class="card-footer-item has-text-grey-light">
       Last updated November 6, 2025
-    </p>
-  </footer>
-</div></div><div class="cell"><div class="card">
-  <div class="card-content">
-    <div class="content">
-      <h3 class="title is-5">
-        <a href="https://github.com/ehamiter/mbox2db" target="_blank" rel="noopener noreferrer">mbox2db</a>
-      </h3>
-      <p>Convert a Gmail (.mbox) export into a SQLite db</p>
-      <div class="level">
-        <div class="level-left">
-          <div class="level-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 4px;">
-              <path d="M8 .2l4.9 15.2L0 6h16L3.1 15.4z"/>
-            </svg>
-            <span>0</span>
-          </div>
-          <div class="level-item">
-            <span class="tag is-info is-light">Rust</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <footer class="card-footer">
-    <p class="card-footer-item has-text-grey-light">
-      Last updated November 4, 2025
     </p>
   </footer>
 </div></div><div class="cell"><div class="card">
@@ -1670,28 +1670,75 @@ document.addEventListener('DOMContentLoaded', function() {
   const tabs = document.querySelectorAll('.tabs li[data-tab]');
   const tabContents = document.querySelectorAll('.tab-content');
   
+  function activateTab(targetId, subcategory) {
+    // Remove active class from all tabs
+    tabs.forEach(t => t.classList.remove('is-active'));
+    // Add active class to target tab
+    const targetTab = document.querySelector(`.tabs li[data-tab="${targetId}"]`);
+    if (targetTab) {
+      targetTab.classList.add('is-active');
+    }
+    
+    // Hide all tab content
+    tabContents.forEach(content => content.classList.remove('is-active'));
+    // Show target tab content
+    const targetContent = document.getElementById(targetId + '-content');
+    if (targetContent) {
+      targetContent.classList.add('is-active');
+    }
+    
+    // Handle subcategory filtering
+    if (targetId === 'things' && subcategory) {
+      filterThings(subcategory);
+    }
+  }
+  
   tabs.forEach(tab => {
-    tab.addEventListener('click', function() {
+    tab.addEventListener('click', function(e) {
+      e.preventDefault();
       const targetId = this.getAttribute('data-tab');
       
-      // Remove active class from all tabs
-      tabs.forEach(t => t.classList.remove('is-active'));
-      // Add active class to clicked tab
-      this.classList.add('is-active');
+      // Update URL
+      history.pushState({section: targetId}, '', `/${targetId}`);
       
-      // Hide all tab content
-      tabContents.forEach(content => content.classList.remove('is-active'));
-      // Show target tab content
-      const targetContent = document.getElementById(targetId + '-content');
-      if (targetContent) {
-        targetContent.classList.add('is-active');
-      }
+      activateTab(targetId);
     });
   });
   
-  // Show first tab by default
-  if (tabs.length > 0) {
-    tabs[0].click();
+  // Handle browser back/forward
+  window.addEventListener('popstate', function(e) {
+    if (e.state && e.state.section) {
+      activateTab(e.state.section, e.state.subcategory);
+    }
+  });
+  
+  // Parse initial URL and activate appropriate section
+  const path = window.location.pathname;
+  const pathParts = path.split('/').filter(p => p);
+  
+  if (pathParts.length > 0) {
+    const section = pathParts[0];
+    const subcategory = pathParts[1];
+    
+    const validSections = ['things', 'apps', 'repos'];
+    if (validSections.includes(section)) {
+      history.replaceState({section: section, subcategory: subcategory}, '', path);
+      activateTab(section, subcategory);
+    } else {
+      // Invalid section, show first tab
+      if (tabs.length > 0) {
+        const firstTab = tabs[0].getAttribute('data-tab');
+        history.replaceState({section: firstTab}, '', `/${firstTab}`);
+        activateTab(firstTab);
+      }
+    }
+  } else {
+    // No path, show first tab
+    if (tabs.length > 0) {
+      const firstTab = tabs[0].getAttribute('data-tab');
+      history.replaceState({section: firstTab}, '', `/${firstTab}`);
+      activateTab(firstTab);
+    }
   }
   
   // Initialize category filter scroll
@@ -1743,6 +1790,13 @@ function filterThings(category) {
       item.style.display = 'none';
     }
   });
+  
+  // Update URL with subcategory
+  if (category !== 'all') {
+    history.pushState({section: 'things', subcategory: category}, '', `/things/${category}`);
+  } else {
+    history.pushState({section: 'things'}, '', '/things');
+  }
 }
 </script>
 
