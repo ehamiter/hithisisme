@@ -1,10 +1,10 @@
 /* Dynamic Color Theme - Generated at build time */
 :root {
-  /* Base color - generated from #551d5c */
-  --base-color: #551d5c;
-  --base-hue: 293deg;
+  /* Base color - generated from #5a1e60 */
+  --base-color: #5a1e60;
+  --base-hue: 295deg;
   --base-saturation: 52%;
-  --base-lightness: 24%;
+  --base-lightness: 25%;
   
   /* Light mode color variations derived from base color */
   --color-primary: hsl(var(--base-hue), var(--base-saturation), var(--base-lightness));
